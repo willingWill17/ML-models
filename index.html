@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Interactive Function Plotter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      canvas {
+        max-width: 800px;
+        max-height: 500px;
+        margin-bottom: 20px;
+      }
+      .controls {
+        margin-top: 20px;
+        background: #f7f7f7;
+        padding: 15px;
+        border-radius: 8px;
+      }
+      .function-controls {
+        margin-top: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background: #fff;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+      input[type="range"],
+      select {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      button {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-bottom: 15px;
+      }
+      button:hover {
+        background: #45a049;
+      }
+      h2 {
+        color: #333;
+      }
+      .control-group {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>2D Scatter Plot with Function Selection</h2>
+
+    <!-- Scatter Plot -->
+    <canvas id="scatterChart"></canvas>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button id="addDataBtn">Add Random Data Points</button>
+      <button id="resetDataBtn">Reset Data Points</button>
+      <button id="fitDataBtn">Model Fit Data</button>
+      <label for="functionSelect">Choose Function Type:</label>
+      <select id="functionSelect">
+        <option value="linear">Linear (y = ax + b)</option>
+        <option value="polynomial">Polynomial (y = ax^2 + bx + c)</option>
+        <option value="svr">SVR (Support Vector Regression)</option>
+      </select>
+
+      <!-- Linear Function Parameters -->
+      <div id="linearControls" class="function-controls">
+        <label for="aSlider">Slope (a): <span id="aValue">1</span></label>
+        <input
+          type="range"
+          id="aSlider"
+          min="-5"
+          max="5"
+          step="0.1"
+          value="1"
+        />
+
+        <label for="bSlider">Intercept (b): <span id="bValue">0</span></label>
+        <input
+          type="range"
+          id="bSlider"
+          min="-5"
+          max="5"
+          step="0.1"
+          value="0"
+        />
+      </div>
+
+      <!-- Polynomial Function Parameters -->
+      <div
+        id="polynomialControls"
+        class="function-controls"
+        style="display: none"
+      >
+        <label for="aSliderPoly"
+          >Coefficient a (x^2): <span id="aPolyValue">1</span></label
+        >
+        <input
+          type="range"
+          id="aSliderPoly"
+          min="-5"
+          max="5"
+          step="0.1"
+          value="1"
+        />
+
+        <label for="bSliderPoly"
+          >Coefficient b (x): <span id="bPolyValue">0</span></label
+        >
+        <input
+          type="range"
+          id="bSliderPoly"
+          min="-5"
+          max="5"
+          step="0.1"
+          value="0"
+        />
+
+        <label for="cSliderPoly"
+          >Intercept c: <span id="cPolyValue">0</span></label
+        >
+        <input
+          type="range"
+          id="cSliderPoly"
+          min="-5"
+          max="5"
+          step="0.1"
+          value="0"
+        />
+      </div>
+
+      <!-- SVR Function Parameters -->
+      <div id="svrControls" class="function-controls" style="display: none">
+        <label for="cSliderSVR"
+          >C (Regularization): <span id="cSVRValue">1.0</span></label
+        >
+        <input
+          type="range"
+          id="cSliderSVR"
+          min="0.1"
+          max="10"
+          step="0.1"
+          value="1"
+        />
+
+        <label for="epsilonSliderSVR"
+          >Epsilon (ε): <span id="epsilonSVRValue">0.10</span></label
+        >
+        <input
+          type="range"
+          id="epsilonSliderSVR"
+          min="0.01"
+          max="1"
+          step="0.01"
+          value="0.1"
+        />
+
+        <label for="weightSliderSVR"
+          >Weight (W): <span id="weightSVRValue">0.50</span></label
+        >
+        <input
+          type="range"
+          id="weightSliderSVR"
+          min="0.05"
+          max="2"
+          step="0.05"
+          value="0.5"
+        />
+
+        <label for="biasSliderSVR"
+          >Bias (b): <span id="biasSVRValue">3</span></label
+        >
+        <input
+          type="range"
+          id="biasSliderSVR"
+          min="2"
+          max="5"
+          step="1"
+          value="3"
+        />
+
+        <!-- <label for="kernelSelectSVR">Kernel Type:</label>
+        <select id="kernelSelectSVR">
+          <option value="linear">Linear</option>
+          <option value="polynomial">Polynomial</option>
+          <option value="rbf">RBF (Gaussian)</option>
+        </select> -->
+      </div>
+    </div>
+    <script src="index.js"></script>
+    <script src="request.js"></script>
+  </body>
+</html>
